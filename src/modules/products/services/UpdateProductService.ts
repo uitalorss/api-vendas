@@ -10,12 +10,7 @@ interface IRequest {
 }
 
 export class UpdateProductService {
-  public async execute(
-    id: string,
-    name: string,
-    quantity: number,
-    price: number,
-  ) {
+  public async execute({ id, name, quantity, price }: IRequest) {
     const productRepository = getCustomRepository(ProductRepository);
 
     const product = await productRepository.findOne({
