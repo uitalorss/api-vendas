@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ListUserService } from '../services/ListUserService';
 import { CreateUserService } from '../services/CreateUserService';
+import { CreateSessionService } from '../services/CreateSessionService';
 
 export class UserController {
   async listUsers(req: Request, res: Response): Promise<Response> {
@@ -10,7 +11,7 @@ export class UserController {
     return res.status(200).json(users);
   }
 
-  async createUser(req: Request, res: Response) {
+  async createUser(req: Request, res: Response): Promise<Response> {
     const { name, email, password } = req.body;
     const createUser = new CreateUserService();
     await createUser.execute({ name, email, password });
