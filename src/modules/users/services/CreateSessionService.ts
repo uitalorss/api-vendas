@@ -1,9 +1,9 @@
+import auth from '@config/auth';
 import { getCustomRepository } from 'typeorm';
 import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
 import bcrypt from 'bcrypt';
-import jwt, { Secret } from 'jsonwebtoken';
-import { User } from '../typeorm/entities/User';
+import jwt from 'jsonwebtoken';
 
 interface IRequest {
   email: string;
@@ -39,9 +39,9 @@ export class CreateSessionService {
       throw new AppError('Usuário e/ou senha inválidos', 404);
     }
 
-    const token = jwt.sign({}, 'd8ad4b5caf5544b6a78887695fe4bbb8', {
+    const token = jwt.sign({}, auth.jwt.secret_key, {
       subject: user.id,
-      expiresIn: '1h',
+      expiresIn: auth.jwt.expiresIn,
     });
 
     const { password: _, ...allInfoUser } = user;
