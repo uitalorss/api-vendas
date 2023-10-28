@@ -3,6 +3,12 @@ import { AppError } from '@shared/errors/AppError';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
+interface IToken {
+  iat: number;
+  exp: number;
+  sub: string;
+}
+
 export function handleAuthentication(
   req: Request,
   res: Response,
@@ -15,7 +21,13 @@ export function handleAuthentication(
 
   try {
     const token = authorization.replace('Bearer ', '');
-    jwt.verify(token, auth.jwt.secret_key);
+    const tokenDecoded = jwt.verify(token, auth.jwt.secret_key);
+
+    const { sub } = tokenDecoded as IToken;
+
+    req.user = {
+      id: sub,
+    };
     next();
   } catch {
     throw new AppError('Token inválido', 401);

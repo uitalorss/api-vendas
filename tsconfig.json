@@ -15,6 +15,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
+    "typeRoots": ["@types", "./node_modules/@types"],
     "paths": {
       "@config/*": ["src/config/*"],
       "@modules/*": ["src/modules/*"],

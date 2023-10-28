@@ -27,5 +27,7 @@ sessionRoutes.post(
 );
 
 sessionRoutes.get('/', handleAuthentication, (req, res) => {
+  const { id } = req.user;
+  console.log(id);
   return res.send();
 });
