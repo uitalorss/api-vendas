@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
-import { User } from '../typeorm/entities/User';
+import fs from 'fs/promises';
 
 interface IRequest {
   userId: string;
@@ -15,6 +15,10 @@ export class UpdateUserAvatarService {
     const user = await userRepository.findById(userId);
     if (!user) {
       throw new AppError('Usuário não encontrado', 404);
+    }
+
+    if (user.avatar) {
+      await fs.unlink(`./uploads/${user.avatar}`);
     }
 
     user.avatar = avatarFileName;
