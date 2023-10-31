@@ -3,9 +3,12 @@ import { Joi, Segments, celebrate } from 'celebrate';
 import { handleAuthentication } from '@shared/http/middlewares/handleAuthentication';
 import { upload } from '@config/upload';
 import { UserController } from '../controllers/UserController';
+import { AvatarController } from '../controllers/AvatarController';
 
 export const userRoutes = Router();
+export const avatarRoutes = Router();
 const userController = new UserController();
+const avatarController = new AvatarController();
 userRoutes.get('/', userController.listUsers);
 userRoutes.post(
   '/',
@@ -31,9 +34,9 @@ userRoutes.post(
   userController.createUser,
 );
 
-userRoutes.post(
-  '/avatar',
+avatarRoutes.patch(
+  '/',
   upload.single('image'),
   handleAuthentication,
-  userController.updateAvatar,
+  avatarController.updateAvatar,
 );

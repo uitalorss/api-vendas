@@ -9,7 +9,7 @@ interface IRequest {
 }
 
 export class UpdateUserAvatarService {
-  public async execute({ avatarFileName, userId }: IRequest): Promise<void> {
+  public async execute({ avatarFileName, userId }: IRequest): Promise<User> {
     const userRepository = getCustomRepository(UserRepository);
 
     const user = await userRepository.findOne({
@@ -20,7 +20,9 @@ export class UpdateUserAvatarService {
     if (!user) {
       throw new AppError('Usuário não encontrado', 404);
     }
+
     user.avatar = avatarFileName;
     userRepository.save(user);
+    return user;
   }
 }
