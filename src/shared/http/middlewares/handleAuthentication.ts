@@ -32,5 +32,4 @@ export function handleAuthentication(
   } catch {
     throw new AppError('Token inválido', 401);
   }
-  next();
 }

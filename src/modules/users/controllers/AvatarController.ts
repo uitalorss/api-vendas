@@ -7,6 +7,10 @@ export class AvatarController {
     const image = req.file!.filename;
     const updateAvatar = new UpdateUserAvatarService();
 
-    return res.send();
+    await updateAvatar.execute({
+      userId: id,
+      avatarFileName: image,
+    });
+    return res.status(204).send();
   }
 }
