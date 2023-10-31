@@ -12,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(router);
+app.use('/files', express.static('./uploads'));
 app.use(errors());
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
