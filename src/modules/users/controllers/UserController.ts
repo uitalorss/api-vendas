@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ListUserService } from '../services/ListUserService';
 import { CreateUserService } from '../services/CreateUserService';
-import { CreateSessionService } from '../services/CreateSessionService';
+import { UpdateUserAvatarService } from '../services/UpdateUserAvatarService';
 
 export class UserController {
   async listUsers(req: Request, res: Response): Promise<Response> {
@@ -17,5 +17,17 @@ export class UserController {
     await createUser.execute({ name, email, password });
 
     return res.status(201).json({ message: 'Usuário criado com sucesso.' });
+  }
+
+  async updateAvatar(req: Request, res: Response): Promise<Response> {
+    const { id } = req.user;
+    const image = req.file!.filename;
+    const updateAvatar = new UpdateUserAvatarService();
+    await updateAvatar.execute({
+      userId: id,
+      avatarFileName: image,
+    });
+
+    return res.status(204).json();
   }
 }

@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { UserController } from '../controllers/UserController';
 import { Joi, Segments, celebrate } from 'celebrate';
+import { handleAuthentication } from '@shared/http/middlewares/handleAuthentication';
+import { upload } from '@config/upload';
+import { UserController } from '../controllers/UserController';
 
 export const userRoutes = Router();
 const userController = new UserController();
-
 userRoutes.get('/', userController.listUsers);
 userRoutes.post(
   '/',
@@ -28,4 +29,11 @@ userRoutes.post(
     },
   }),
   userController.createUser,
+);
+
+userRoutes.post(
+  '/avatar',
+  upload.single('image'),
+  handleAuthentication,
+  userController.updateAvatar,
 );
