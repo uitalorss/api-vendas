@@ -20,7 +20,7 @@ export class ResetPasswordService {
       throw new AppError('Token inválido');
     }
 
-    const user = await userRepository.findById(userToken.id);
+    const user = await userRepository.findById(userToken.user_id);
     if (!user) {
       throw new AppError('Usuário inválido');
     }
