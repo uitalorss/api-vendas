@@ -3,6 +3,7 @@ import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
 import { UserTokenRepository } from '../typeorm/repositories/UserTokenRepository';
 import { Mail } from '@config/Mail';
+import template from '../../../templates/resetPassword.html';
 
 interface IRequest {
   email: string;
@@ -19,6 +20,18 @@ export class SendForgotPasswordEmailService {
     }
 
     const userToken = await userTokenRepository.generateToken(user.id);
-    await Mail.sendMail({ email, token: userToken.token });
+    await Mail.sendMail({
+      email,
+      subject: 'Redefina sua senha',
+      template: {
+        template: `
+        Olá {{name}}!! Segue link para redefinir a sua senha: http://localhost:3000?password/reset?token={{token}}
+        `,
+        variables: {
+          name: user.name,
+          token: userToken.token,
+        },
+      },
+    });
   }
 }
