@@ -25,11 +25,6 @@ passwordRoutes.patch(
   '/reset',
   celebrate({
     [Segments.BODY]: {
-      token: Joi.string().uuid().required().messages({
-        'any.required': 'O campo token é obrigatório',
-        'string.guid': 'Informe um token válido',
-        'string.empty': 'O campo não pode ficar vazio',
-      }),
       password: Joi.string().required().min(5).max(20).messages({
         'any.required': 'O campo senha é obrigatório',
         'string.min': 'Informe uma senha maior que 5 caracteres',
@@ -43,6 +38,13 @@ passwordRoutes.patch(
           'any.required': 'O campo senha é obrigatório',
           'any.only': 'Os campos de senha não coincidem',
         }),
+    },
+    [Segments.QUERY]: {
+      token: Joi.string().uuid().required().messages({
+        'any.required': 'O campo token é obrigatório',
+        'string.guid': 'Informe um token válido',
+        'string.empty': 'O campo não pode ficar vazio',
+      }),
     },
   }),
   resetPasswordController.updatePassword,

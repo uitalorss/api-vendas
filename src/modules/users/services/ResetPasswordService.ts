@@ -26,7 +26,7 @@ export class ResetPasswordService {
     }
 
     const compareDate = addHours(userToken.created_at, 2);
-    if (isAfter(compareDate, Date.now())) {
+    if (isAfter(Date.now(), compareDate)) {
       throw new AppError('Token expirado.');
     }
 
