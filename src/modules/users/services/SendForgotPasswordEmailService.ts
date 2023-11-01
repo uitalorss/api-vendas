@@ -2,6 +2,7 @@ import { getCustomRepository } from 'typeorm';
 import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
 import { UserTokenRepository } from '../typeorm/repositories/UserTokenRepository';
+import { Mail } from '@config/Mail';
 
 interface IRequest {
   email: string;
@@ -18,6 +19,6 @@ export class SendForgotPasswordEmailService {
     }
 
     const userToken = await userTokenRepository.generateToken(user.id);
-    console.log(userToken);
+    await Mail.sendMail({ email, token: userToken.token });
   }
 }
