@@ -8,6 +8,7 @@ export const userRoutes = Router();
 export const avatarRoutes = Router();
 const userController = new UserController();
 userRoutes.get('/', userController.listUsers);
+userRoutes.get('/profile', handleAuthentication, userController.getUser);
 userRoutes.post(
   '/',
   celebrate({

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ListUserService } from '../services/ListUserService';
 import { CreateUserService } from '../services/CreateUserService';
 import { UpdateUserAvatarService } from '../services/UpdateUserAvatarService';
+import { GetUserService } from '../services/getUserService';
 
 export class UserController {
   async listUsers(req: Request, res: Response): Promise<Response> {
@@ -29,5 +30,12 @@ export class UserController {
       avatarFileName: image,
     });
     return res.status(204).send();
+  }
+
+  async getUser(req: Request, res: Response) {
+    const { id } = req.user;
+    const getUserService = new GetUserService();
+    const user = await getUserService.execute({ userId: id });
+    return res.status(200).json(user);
   }
 }
