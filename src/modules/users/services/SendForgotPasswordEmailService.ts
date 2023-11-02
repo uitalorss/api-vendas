@@ -3,11 +3,20 @@ import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
 import { UserTokenRepository } from '../typeorm/repositories/UserTokenRepository';
 import { Mail } from '@config/Mail';
-import template from '../../../templates/resetPassword.html';
+import path from 'path';
 
 interface IRequest {
   email: string;
 }
+
+const templateResetPassword = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'templates',
+  'resetPassword.hbs',
+);
 
 export class SendForgotPasswordEmailService {
   public async execute({ email }: IRequest) {
@@ -24,9 +33,7 @@ export class SendForgotPasswordEmailService {
       email,
       subject: 'Redefina sua senha',
       template: {
-        template: `
-        Olá {{name}}!! Segue link para redefinir a sua senha: http://localhost:3000?password/reset?token={{token}}
-        `,
+        template: templateResetPassword,
         variables: {
           name: user.name,
           token: userToken.token,
