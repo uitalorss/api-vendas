@@ -3,6 +3,7 @@ import { ListUserService } from '../services/ListUserService';
 import { CreateUserService } from '../services/CreateUserService';
 import { UpdateUserAvatarService } from '../services/UpdateUserAvatarService';
 import { GetUserService } from '../services/getUserService';
+import { UpdateProfileService } from '../services/updateProfileService';
 
 export class UserController {
   async listUsers(req: Request, res: Response): Promise<Response> {
@@ -37,5 +38,19 @@ export class UserController {
     const getUserService = new GetUserService();
     const user = await getUserService.execute({ userId: id });
     return res.status(200).json(user);
+  }
+
+  async updateUser(req: Request, res: Response) {
+    const { id } = req.user;
+    const { name, email, password, oldPassword } = req.body;
+    const updateProfileService = new UpdateProfileService();
+    await updateProfileService.execute({
+      userId: id,
+      name,
+      email,
+      password,
+      oldPassword,
+    });
+    return res.status(204).send();
   }
 }
