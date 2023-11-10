@@ -22,18 +22,23 @@ userRoutes.put(
         'string.email': 'Informe um email válido',
         'string.empty': 'O campo não pode ficar vazio',
       }),
-      password: Joi.string().required().min(5).max(20).messages({
-        'any.required': 'O campo senha é obrigatório',
+      password: Joi.string().optional().min(5).max(20).messages({
         'string.min': 'Informe uma senha maior que 5 caracteres',
         'string.max': 'Informe uma senha menor que 20 caracteres',
         'string.empty': 'O campo não pode ficar vazio',
       }),
-      oldPassword: Joi.string().required().min(5).max(20).messages({
-        'any.required': 'O campo senha é obrigatório',
-        'string.min': 'Informe uma senha maior que 5 caracteres',
-        'string.max': 'Informe uma senha menor que 20 caracteres',
-        'string.empty': 'O campo não pode ficar vazio',
-      }),
+      oldPassword: Joi.string()
+        .min(5)
+        .max(20)
+        .when('password', {
+          is: Joi.exist(),
+          then: Joi.required(),
+        })
+        .messages({
+          'string.min': 'Informe uma senha maior que 5 caracteres',
+          'string.max': 'Informe uma senha menor que 20 caracteres',
+          'any.required': 'O campo senha anterior é obrigatório',
+        }),
     },
   }),
   handleAuthentication,
