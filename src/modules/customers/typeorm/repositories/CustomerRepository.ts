@@ -14,7 +14,7 @@ export class CustomerRepository extends Repository<Customer> {
   }
 
   public async findByEmail(email: string) {
-    const customer = await this.find({
+    const customer = await this.findOne({
       where: {
         email,
       },
