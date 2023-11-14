@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -14,10 +15,12 @@ export class OrderProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Product)
+  @ManyToOne(() => Product, product => product.orderProduct)
+  @JoinColumn({ name: 'productId' })
   product: Product;
 
-  @ManyToOne(() => Order)
+  @ManyToOne(() => Order, order => order.orderProduct)
+  @JoinColumn({ name: 'orderId' })
   order: Order;
 
   @Column('decimal')

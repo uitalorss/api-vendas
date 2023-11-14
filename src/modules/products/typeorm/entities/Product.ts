@@ -1,7 +1,9 @@
+import { OrderProduct } from '@modules/orders/typeorm/entities/OrderProduct';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,6 +15,9 @@ export class Product {
 
   @Column()
   name: string;
+
+  @OneToMany(() => OrderProduct, order_product => order_product.product)
+  orderProduct: OrderProduct[];
 
   @Column('decimal')
   price: number;
