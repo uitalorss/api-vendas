@@ -16,12 +16,18 @@ export class OrderProduct {
   id: string;
 
   @ManyToOne(() => Product, product => product.orderProduct)
-  @JoinColumn({ name: 'productId' })
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 
   @ManyToOne(() => Order, order => order.orderProduct)
-  @JoinColumn({ name: 'orderId' })
+  @JoinColumn({ name: 'order_id' })
   order: Order;
+
+  @JoinColumn()
+  product_id: string;
+
+  @JoinColumn()
+  order_id: string;
 
   @Column('decimal')
   price: number;
