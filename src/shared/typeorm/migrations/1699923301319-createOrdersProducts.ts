@@ -19,12 +19,12 @@ export class createOrdersProducts1699923301319 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'orderId',
+            name: 'order_id',
             type: 'uuid',
             isNullable: true,
           },
           {
-            name: 'productId',
+            name: 'product_id',
             type: 'uuid',
             isNullable: true,
           },
@@ -55,7 +55,7 @@ export class createOrdersProducts1699923301319 implements MigrationInterface {
       'orders_products',
       new TableForeignKey({
         name: 'ordersProductsOrder',
-        columnNames: ['orderId'],
+        columnNames: ['order_id'],
         referencedTableName: 'orders',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
@@ -66,7 +66,7 @@ export class createOrdersProducts1699923301319 implements MigrationInterface {
       'orders_products',
       new TableForeignKey({
         name: 'ordersProductsProduct',
-        columnNames: ['productId'],
+        columnNames: ['product_id'],
         referencedTableName: 'products',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',

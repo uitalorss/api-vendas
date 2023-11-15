@@ -3,10 +3,11 @@ import { OrderRepository } from '../typeorm/repositories/OrderRepository';
 import { CustomerRepository } from '@modules/customers/typeorm/repositories/CustomerRepository';
 import { AppError } from '@shared/errors/AppError';
 import { ProductRepository } from '@modules/products/typeorm/repositories/ProductRepository';
+import { Product } from '@modules/products/typeorm/entities/Product';
+import { not } from 'joi';
 
 interface IProduct {
-  price: number;
-  product_id: string;
+  id: string;
   quantity: number;
 }
 
@@ -15,7 +16,7 @@ interface IRequest {
   products: IProduct[];
 }
 
-export class createOrderService {
+export class CreateOrderService {
   public async execute({ customer_id, products }: IRequest) {
     const orderRepository = getCustomRepository(OrderRepository);
     const customerRepository = getCustomRepository(CustomerRepository);
@@ -25,28 +26,58 @@ export class createOrderService {
       throw new AppError('Cliente não encontrado', 404);
     }
 
-    products.map(async product => {
-      const item = await productRepository.findOne(product.product_id);
-      if (!item) {
-        throw new AppError(`Produto com id ${product.product_id}`, 404);
-      }
-      if (product.quantity > item.quantity) {
-        throw new AppError(
-          `Produto ${product.product_id} com quantidade pedida maior que o estoque.`,
-        );
-      }
+    const dbProducts = await productRepository.findProducts(products);
+
+    if (!dbProducts.length) {
+      throw new AppError('Nenhum produto informado existe.', 404);
+    }
+
+    const idProducts = dbProducts.map(product => product.id);
+
+    const productsThatNotExists = products.filter(item => {
+      return !idProducts.includes(item.id);
     });
 
-    const newOrder = await orderRepository.createOrder({ customer, products });
+    if (productsThatNotExists.length) {
+      throw new AppError(
+        `Produto do Código ${productsThatNotExists[0].id} não existe no sistema`,
+      );
+    }
+
+    const notAvailableQuantityProducts = products.filter(product => {
+      return (
+        dbProducts.filter(dbItem => dbItem.id === product.id)[0].quantity <
+        product.quantity
+      );
+    });
+    if (notAvailableQuantityProducts.length) {
+      throw new AppError(
+        `Produto ${notAvailableQuantityProducts[0].id} com estoque insuficiente`,
+      );
+    }
+
+    const filledProducts = products.map(product => ({
+      product_id: product.id,
+      quantity: product.quantity,
+      price: dbProducts.filter(dbItem => dbItem.id === product.id)[0].price,
+    }));
+
+    console.log(filledProducts);
+
+    const newOrder = await orderRepository.createOrder({
+      customer,
+      products: filledProducts,
+    });
 
     const { orderProduct } = newOrder;
-    orderProduct.map(async product => {
-      const productItem = await productRepository.findOne(product.id);
-      if (productItem) {
-        productItem.quantity = productItem.quantity - product.quantity;
-        await productRepository.save(productItem);
-      }
-    });
+    const updateProducts = orderProduct.map(product => ({
+      id: product.product_id,
+      quantity:
+        dbProducts.filter(dbItem => dbItem.id === product.product_id)[0]
+          .quantity - product.quantity,
+    }));
+
+    await productRepository.save(updateProducts);
 
     return newOrder;
   }

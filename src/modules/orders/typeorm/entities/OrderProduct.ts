@@ -15,18 +15,18 @@ export class OrderProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Product, product => product.orderProduct)
-  @JoinColumn({ name: 'product_id' })
-  product: Product;
-
   @ManyToOne(() => Order, order => order.orderProduct)
   @JoinColumn({ name: 'order_id' })
   order: Order;
 
-  @JoinColumn()
+  @ManyToOne(() => Product, product => product.orderProduct)
+  @JoinColumn({ name: 'product_id' })
+  product: Product;
+
+  @Column()
   product_id: string;
 
-  @JoinColumn()
+  @Column()
   order_id: string;
 
   @Column('decimal')

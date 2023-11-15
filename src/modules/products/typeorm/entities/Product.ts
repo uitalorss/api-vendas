@@ -16,7 +16,7 @@ export class Product {
   @Column()
   name: string;
 
-  @OneToMany(() => OrderProduct, order_product => order_product.product)
+  @OneToMany(() => OrderProduct, orderProduct => orderProduct.product)
   orderProduct: OrderProduct[];
 
   @Column('decimal')

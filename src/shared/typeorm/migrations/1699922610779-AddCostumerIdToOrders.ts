@@ -10,7 +10,7 @@ export class AddCostumerIdToOrders1699922610779 implements MigrationInterface {
     await queryRunner.addColumn(
       'orders',
       new TableColumn({
-        name: 'customerId',
+        name: 'customer_id',
         type: 'uuid',
         isNullable: true,
       }),
@@ -20,7 +20,7 @@ export class AddCostumerIdToOrders1699922610779 implements MigrationInterface {
       'orders',
       new TableForeignKey({
         name: 'ordersCustomer',
-        columnNames: ['customerId'],
+        columnNames: ['customer_id'],
         referencedTableName: 'customers',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',

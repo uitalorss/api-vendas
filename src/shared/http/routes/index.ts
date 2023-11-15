@@ -1,4 +1,5 @@
 import { customerRoutes } from '@modules/customers/routes/customer.routes';
+import { orderRoutes } from '@modules/orders/routes/order.routes';
 import { productsRouter } from '@modules/products/Routes/products.routes';
 import { passwordRoutes } from '@modules/users/routes/password.routes';
 import { sessionRoutes } from '@modules/users/routes/session.routes';
@@ -11,3 +12,4 @@ router.use('/session', sessionRoutes);
 router.use('/users', userRoutes);
 router.use('/password', passwordRoutes);
 router.use('/customer', customerRoutes);
+router.use('/order', orderRoutes);

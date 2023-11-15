@@ -1,5 +1,6 @@
 import { Customer } from '@modules/customers/typeorm/entities/Customer';
 import {
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
@@ -12,11 +13,11 @@ import { OrderProduct } from './OrderProduct';
 
 @Entity('orders')
 export class Order {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => Customer)
-  @JoinColumn({ name: 'customerId' })
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
   @OneToMany(() => OrderProduct, orderProduct => orderProduct.order, {
