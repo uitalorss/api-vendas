@@ -4,13 +4,14 @@ import { CreateUserService } from '../services/CreateUserService';
 import { UpdateUserAvatarService } from '../services/UpdateUserAvatarService';
 import { GetUserService } from '../services/getUserService';
 import { UpdateProfileService } from '../services/updateProfileService';
+import { instanceToInstance } from 'class-transformer';
 
 export class UserController {
   async listUsers(req: Request, res: Response): Promise<Response> {
     const listUsers = new ListUserService();
     const users = await listUsers.execute();
 
-    return res.status(200).json(users);
+    return res.status(200).json(instanceToInstance(users));
   }
 
   async createUser(req: Request, res: Response): Promise<Response> {
@@ -37,7 +38,7 @@ export class UserController {
     const { id } = req.user;
     const getUserService = new GetUserService();
     const user = await getUserService.execute({ userId: id });
-    return res.status(200).json(user);
+    return res.status(200).json(instanceToInstance(user));
   }
 
   async updateUser(req: Request, res: Response) {

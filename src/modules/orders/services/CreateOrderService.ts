@@ -3,8 +3,6 @@ import { OrderRepository } from '../typeorm/repositories/OrderRepository';
 import { CustomerRepository } from '@modules/customers/typeorm/repositories/CustomerRepository';
 import { AppError } from '@shared/errors/AppError';
 import { ProductRepository } from '@modules/products/typeorm/repositories/ProductRepository';
-import { Product } from '@modules/products/typeorm/entities/Product';
-import { not } from 'joi';
 
 interface IProduct {
   id: string;

@@ -14,7 +14,6 @@ export class GetUserService {
     if (!user) {
       throw new AppError('Usuário não encontrado');
     }
-    const { password: _, ...dataUser } = user;
-    return dataUser;
+    return user;
   }
 }
