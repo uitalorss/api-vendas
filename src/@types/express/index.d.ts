@@ -16,5 +16,8 @@ declare namespace NodeJS {
     MAIL_PASS: string;
     MAIL_NAME: string;
     MAIL_FROM: string;
+    REDIS_HOST: string;
+    REDIS_PORT: string;
+    REDIS_PASS: string;
   }
 }
