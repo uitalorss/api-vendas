@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { CustomerRepository } from '../typeorm/repositories/CustomerRepository';
+import { CustomerRepository } from '../infra/typeorm/repositories/CustomerRepository';
 
 export class ListCustomersService {
   public async execute() {

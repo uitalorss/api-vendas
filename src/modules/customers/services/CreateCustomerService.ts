@@ -1,14 +1,10 @@
 import { getCustomRepository } from 'typeorm';
-import { CustomerRepository } from '../typeorm/repositories/CustomerRepository';
 import { AppError } from '@shared/errors/AppError';
-
-interface IRequest {
-  name: string;
-  email: string;
-}
+import { CustomerRepository } from '../infra/typeorm/repositories/CustomerRepository';
+import { ICreateCostumer } from '../domain/models/ICreateCostumer';
 
 export class CreateCustomerService {
-  public async execute({ name, email }: IRequest) {
+  public async execute({ name, email }: ICreateCostumer) {
     const customerRepository = getCustomRepository(CustomerRepository);
 
     const customerEmailAlreadyInUse =
@@ -18,10 +14,9 @@ export class CreateCustomerService {
       throw new AppError('Esse email já se encontra em uso.');
     }
 
-    const newCustomer = customerRepository.create({
+    const newCustomer = await customerRepository.create({
       name,
       email,
     });
-    await customerRepository.save(newCustomer);
   }
 }
