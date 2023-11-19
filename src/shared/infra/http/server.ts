@@ -6,7 +6,7 @@ import { router } from './routes';
 import { AppError } from '@shared/errors/AppError';
 import { errors } from 'celebrate';
 import { rateLimiter } from './middlewares/rateLimiter';
-import '@shared/typeorm';
+import '@shared/infra/typeorm';
 import '@shared/container';
 
 const app = express();

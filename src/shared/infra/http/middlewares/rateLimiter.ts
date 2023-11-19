@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import redis from 'redis';
 import 'dotenv/config';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
-import { request } from 'http';
 import { AppError } from '@shared/errors/AppError';
 
 export async function rateLimiter(
@@ -23,11 +22,12 @@ export async function rateLimiter(
     const limiter = new RateLimiterRedis({
       storeClient: redisClient,
       keyPrefix: 'ratelimit',
-      points: 1,
+      points: 5,
       duration: 1,
     });
-
     await limiter.consume(Number(req.ip));
+
+    return next();
   } catch (err) {
     throw new AppError('Requisições em excesso', 429);
   }
