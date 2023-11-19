@@ -1,10 +1,10 @@
-import { EntityRepository, Repository, getRepository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { Customer } from '../entities/Customer';
-import { ICostumerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
 import { ICreateCostumer } from '@modules/customers/domain/models/ICreateCostumer';
 import { ICostumer } from '@modules/customers/domain/models/ICostumer';
+import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
 
-export class CustomerRepository implements ICostumerRepository {
+export class CustomerRepository implements ICustomerRepository {
   private ormRepository: Repository<Customer>;
   constructor() {
     this.ormRepository = getRepository(Customer);

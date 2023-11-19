@@ -1,7 +1,7 @@
 import { ICostumer } from '../models/ICostumer';
 import { ICreateCostumer } from '../models/ICreateCostumer';
 
-export interface ICostumerRepository {
+export interface ICustomerRepository {
   findByName(name: string): Promise<ICostumer | undefined>;
   findByEmail(email: string): Promise<ICostumer | undefined>;
   findById(id: string): Promise<ICostumer | undefined>;
