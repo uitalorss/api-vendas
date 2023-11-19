@@ -1,6 +1,5 @@
 import { getCustomRepository } from 'typeorm';
 import { CustomerRepository } from '../typeorm/repositories/CustomerRepository';
-import { emit } from 'process';
 import { AppError } from '@shared/errors/AppError';
 
 interface IRequest {
