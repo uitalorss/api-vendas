@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { OrderController } from '../controllers/OrderController';
-import { handleAuthentication } from '@shared/http/middlewares/handleAuthentication';
 import { Joi, Segments, celebrate } from 'celebrate';
+import { handleAuthentication } from '@shared/infra/http/middlewares/handleAuthentication';
 
 export const orderRoutes = Router();
 const orderController = new OrderController();

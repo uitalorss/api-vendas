@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { SessionController } from '../controllers/SessionController';
 import { Joi, Segments, celebrate } from 'celebrate';
-import { handleAuthentication } from '@shared/http/middlewares/handleAuthentication';
+import { handleAuthentication } from '@shared/infra/http/middlewares/handleAuthentication';
 
 export const sessionRoutes = Router();
 const sessionController = new SessionController();

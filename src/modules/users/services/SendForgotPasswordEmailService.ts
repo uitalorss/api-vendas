@@ -1,9 +1,9 @@
 import { getCustomRepository } from 'typeorm';
-import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
-import { UserTokenRepository } from '../typeorm/repositories/UserTokenRepository';
 import { Mail } from '@config/Mail';
 import path from 'path';
+import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
+import { UserTokenRepository } from '../infra/typeorm/repositories/UserTokenRepository';
 
 interface IRequest {
   email: string;

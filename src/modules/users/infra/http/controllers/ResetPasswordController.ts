@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { ResetPasswordService } from '../services/ResetPasswordService';
 import { AppError } from '@shared/errors/AppError';
+import { ResetPasswordService } from '@modules/users/services/ResetPasswordService';
 
 export class ResetPasswordController {
   public async updatePassword(req: Request, res: Response): Promise<Response> {

@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
-import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
 import fs from 'fs/promises';
+import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 
 interface IRequest {
   userId: string;

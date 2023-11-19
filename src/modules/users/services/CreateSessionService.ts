@@ -1,9 +1,9 @@
 import auth from '@config/auth';
 import { getCustomRepository } from 'typeorm';
-import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 
 interface IRequest {
   email: string;

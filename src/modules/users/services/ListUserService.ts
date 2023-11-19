@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { UserRepository } from '../typeorm/repositories/UserRepository';
+import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 
 export class ListUserService {
   public async execute() {

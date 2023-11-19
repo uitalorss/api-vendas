@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { Joi, Segments, celebrate } from 'celebrate';
-import { handleAuthentication } from '@shared/http/middlewares/handleAuthentication';
 import { upload } from '@config/upload';
 import { UserController } from '../controllers/UserController';
+import { handleAuthentication } from '@shared/infra/http/middlewares/handleAuthentication';
 
 export const userRoutes = Router();
 export const avatarRoutes = Router();

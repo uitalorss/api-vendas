@@ -1,8 +1,8 @@
 import { getCustomRepository } from 'typeorm';
-import { ProductRepository } from '../typeorm/repositories/ProductRepository';
 import { AppError } from '@shared/errors/AppError';
-import { Product } from '../typeorm/entities/Product';
 import { RedisCache } from '@shared/cache/RedisCache';
+import { ProductRepository } from '../infra/typeorm/repositories/ProductRepository';
+import { Product } from '../infra/typeorm/entities/Product';
 
 interface IRequest {
   name: string;

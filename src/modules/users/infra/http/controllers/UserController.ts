@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-import { ListUserService } from '../services/ListUserService';
-import { CreateUserService } from '../services/CreateUserService';
-import { UpdateUserAvatarService } from '../services/UpdateUserAvatarService';
-import { GetUserService } from '../services/getUserService';
-import { UpdateProfileService } from '../services/updateProfileService';
+
 import { instanceToInstance } from 'class-transformer';
+import { ListUserService } from '@modules/users/services/ListUserService';
+import { CreateUserService } from '@modules/users/services/CreateUserService';
+import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvatarService';
+import { GetUserService } from '@modules/users/services/getUserService';
+import { UpdateProfileService } from '@modules/users/services/updateProfileService';
 
 export class UserController {
   async listUsers(req: Request, res: Response): Promise<Response> {

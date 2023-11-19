@@ -1,6 +1,6 @@
+import { CreateOrderService } from '@modules/orders/services/CreateOrderService';
+import { GetOrderService } from '@modules/orders/services/GetOrderService';
 import { Request, Response } from 'express';
-import { CreateOrderService } from '../services/CreateOrderService';
-import { GetOrderService } from '../services/GetOrderService';
 
 export class OrderController {
   public async createOrder(req: Request, res: Response) {

@@ -1,5 +1,5 @@
+import { CreateSessionService } from '@modules/users/services/CreateSessionService';
 import { Request, Response } from 'express';
-import { CreateSessionService } from '../services/CreateSessionService';
 
 export class SessionController {
   async createSession(req: Request, res: Response): Promise<Response> {
