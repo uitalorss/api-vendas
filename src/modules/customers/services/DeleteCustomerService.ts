@@ -1,6 +1,4 @@
-import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
-import { CustomerRepository } from '../infra/typeorm/repositories/CustomerRepository';
 import { ICustomerRepository } from '../domain/repositories/ICustomerRepository';
 import { inject, injectable } from 'tsyringe';
 

@@ -1,8 +1,8 @@
 import { Repository, getRepository } from 'typeorm';
 import { Customer } from '../entities/Customer';
-import { ICreateCostumer } from '@modules/customers/domain/models/ICreateCostumer';
-import { ICostumer } from '@modules/customers/domain/models/ICostumer';
 import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
+import { ICreateCustomer } from '@modules/customers/domain/models/ICreateCustomer';
+import { ICustomer } from '@modules/customers/domain/models/ICustomer';
 
 export class CustomerRepository implements ICustomerRepository {
   private ormRepository: Repository<Customer>;
@@ -38,7 +38,7 @@ export class CustomerRepository implements ICustomerRepository {
     return customer;
   }
 
-  public async create({ name, email }: ICreateCostumer) {
+  public async create({ name, email }: ICreateCustomer) {
     const customer = this.ormRepository.create({ name, email });
     await this.ormRepository.save(customer);
 
@@ -49,7 +49,7 @@ export class CustomerRepository implements ICustomerRepository {
     return this.ormRepository.save(customer);
   }
 
-  public async remove(customer: ICostumer) {
+  public async remove(customer: ICustomer) {
     return this.ormRepository.remove(customer);
   }
 

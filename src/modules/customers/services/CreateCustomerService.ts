@@ -1,7 +1,7 @@
 import { AppError } from '@shared/errors/AppError';
-import { ICreateCostumer } from '../domain/models/ICreateCostumer';
 import { ICustomerRepository } from '../domain/repositories/ICustomerRepository';
 import { inject, injectable } from 'tsyringe';
+import { ICreateCustomer } from '../domain/models/ICreateCustomer';
 
 @injectable()
 export class CreateCustomerService {
@@ -9,7 +9,7 @@ export class CreateCustomerService {
     @inject('CustomerRepository')
     private customerRepository: ICustomerRepository,
   ) {}
-  public async execute({ name, email }: ICreateCostumer) {
+  public async execute({ name, email }: ICreateCustomer) {
     const customerEmailAlreadyInUse =
       await this.customerRepository.findByEmail(email);
 

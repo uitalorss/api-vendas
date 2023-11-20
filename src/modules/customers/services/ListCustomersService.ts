@@ -1,5 +1,3 @@
-import { getCustomRepository } from 'typeorm';
-import { CustomerRepository } from '../infra/typeorm/repositories/CustomerRepository';
 import { inject, injectable } from 'tsyringe';
 import { ICustomerRepository } from '../domain/repositories/ICustomerRepository';
 

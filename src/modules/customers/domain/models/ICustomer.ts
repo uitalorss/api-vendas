@@ -1,4 +1,4 @@
-export interface ICostumer {
+export interface ICustomer {
   id: string;
   name: string;
   email: string;

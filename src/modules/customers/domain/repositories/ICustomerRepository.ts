@@ -1,12 +1,12 @@
-import { ICostumer } from '../models/ICostumer';
-import { ICreateCostumer } from '../models/ICreateCostumer';
+import { ICreateCustomer } from '../models/ICreateCustomer';
+import { ICustomer } from '../models/ICustomer';
 
 export interface ICustomerRepository {
-  findByName(name: string): Promise<ICostumer | undefined>;
-  findByEmail(email: string): Promise<ICostumer | undefined>;
-  findById(id: string): Promise<ICostumer | undefined>;
-  find(): Promise<ICostumer[] | undefined>;
-  create(data: ICreateCostumer): Promise<ICostumer>;
-  remove(customer: ICostumer): Promise<ICostumer>;
-  save(customer: ICostumer): Promise<ICostumer>;
+  findByName(name: string): Promise<ICustomer | undefined>;
+  findByEmail(email: string): Promise<ICustomer | undefined>;
+  findById(id: string): Promise<ICustomer | undefined>;
+  find(): Promise<ICustomer[] | undefined>;
+  create(data: ICreateCustomer): Promise<ICustomer>;
+  remove(customer: ICustomer): Promise<ICustomer>;
+  save(customer: ICustomer): Promise<ICustomer>;
 }
