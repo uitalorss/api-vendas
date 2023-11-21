@@ -1,5 +1,5 @@
-import { ICreateUser } from '../modules/ICreateUser';
-import { IUser } from '../modules/IUser';
+import { ICreateUser } from '../models/ICreateUser';
+import { IUser } from '../models/IUser';
 
 export interface IUserRepository {
   find(): Promise<IUser[]>;

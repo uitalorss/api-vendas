@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
 import fs from 'fs/promises';
-import { IUpdateUserAvatar } from '../domain/modules/IUpdateUserAvatar';
+import { IUpdateUserAvatar } from '../domain/models/IUpdateUserAvatar';
 import { inject, injectable } from 'tsyringe';
 import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 

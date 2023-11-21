@@ -3,7 +3,7 @@ import { AppError } from '@shared/errors/AppError';
 import bcrypt from 'bcrypt';
 import { User } from '../infra/typeorm/entities/User';
 import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
-import { ICreateUser } from '../domain/modules/ICreateUser';
+import { ICreateUser } from '../domain/models/ICreateUser';
 import { inject, injectable } from 'tsyringe';
 import { CustomerRepository } from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
 

@@ -1,4 +1,4 @@
-import { IUserToken } from '@modules/users/domain/modules/IUserToken';
+import { IUserToken } from '@modules/users/domain/models/IUserToken';
 import {
   Column,
   CreateDateColumn,

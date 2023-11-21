@@ -1,4 +1,4 @@
-import { IUserToken } from '../modules/IUserToken';
+import { IUserToken } from '../models/IUserToken';
 
 export interface IUserTokenRepository {
   findByToken(token: string): Promise<IUserToken | undefined>;

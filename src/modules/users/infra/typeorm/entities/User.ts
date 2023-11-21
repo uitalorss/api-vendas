@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
-import { IUser } from '@modules/users/domain/modules/IUser';
+import { IUser } from '@modules/users/domain/models/IUser';
 
 @Entity('users')
 export class User implements IUser {

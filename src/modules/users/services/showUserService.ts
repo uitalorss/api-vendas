@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { IGetUser } from '../domain/modules/IGetUser';
+import { IGetUser } from '../domain/models/IGetUser';
 import { AppError } from '@shared/errors/AppError';
 import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 

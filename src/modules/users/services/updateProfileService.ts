@@ -2,7 +2,7 @@ import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
 import { compare, hash } from 'bcrypt';
 import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
-import { IUpdateUser } from '../domain/modules/IUpdateUser';
+import { IUpdateUser } from '../domain/models/IUpdateUser';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()

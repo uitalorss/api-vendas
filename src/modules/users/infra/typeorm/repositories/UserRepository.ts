@@ -1,6 +1,6 @@
 import { EntityRepository, Repository, getRepository } from 'typeorm';
 import { User } from '../entities/User';
-import { ICreateUser } from '@modules/users/domain/modules/ICreateUser';
+import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 
 @EntityRepository(User)
