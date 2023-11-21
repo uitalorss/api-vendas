@@ -1,7 +1,7 @@
 import { In, Repository, getRepository } from 'typeorm';
 import { Product } from '../entities/Product';
-import { IFindProducts } from '@modules/products/domain/modules/IFindProducts';
-import { ICreateProduct } from '@modules/products/domain/modules/ICreateProduct';
+import { IFindProducts } from '@modules/products/domain/models/IFindProducts';
+import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
 import { IProductRepository } from '@modules/products/domain/repositories/IProductRepository';
 
 export class ProductRepository implements IProductRepository {
@@ -15,6 +15,15 @@ export class ProductRepository implements IProductRepository {
     const product = await this.ormRepository.findOne({
       where: {
         name: name,
+      },
+    });
+    return product;
+  }
+
+  public async findById(id: string): Promise<Product | undefined> {
+    const product = await this.ormRepository.findOne({
+      where: {
+        id: id,
       },
     });
     return product;
