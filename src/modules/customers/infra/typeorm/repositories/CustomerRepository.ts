@@ -49,7 +49,7 @@ export class CustomerRepository implements ICustomerRepository {
     return this.ormRepository.save(customer);
   }
 
-  public async remove(customer: ICustomer) {
+  public async remove(customer: Customer) {
     return this.ormRepository.remove(customer);
   }
 

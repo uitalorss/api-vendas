@@ -63,7 +63,7 @@ export class CreateOrderService {
 
     console.log(filledProducts);
 
-    const newOrder = await orderRepository.createOrder({
+    const newOrder = await orderRepository.create({
       customer,
       products: filledProducts,
     });

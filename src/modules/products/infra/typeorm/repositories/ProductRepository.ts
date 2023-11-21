@@ -1,14 +1,18 @@
-import { EntityRepository, In, Repository } from 'typeorm';
+import { In, Repository, getRepository } from 'typeorm';
 import { Product } from '../entities/Product';
+import { IFindProducts } from '@modules/products/domain/modules/IFindProducts';
+import { ICreateProduct } from '@modules/products/domain/modules/ICreateProduct';
+import { IProductRepository } from '@modules/products/domain/repositories/IProductRepository';
 
-interface IFindProducts {
-  id: string;
-}
+export class ProductRepository implements IProductRepository {
+  private ormRepository: Repository<Product>;
 
-@EntityRepository(Product)
-export class ProductRepository extends Repository<Product> {
+  constructor() {
+    this.ormRepository = getRepository(Product);
+  }
+
   public async findByName(name: string): Promise<Product | undefined> {
-    const product = await this.findOne({
+    const product = await this.ormRepository.findOne({
       where: {
         name: name,
       },
@@ -19,7 +23,7 @@ export class ProductRepository extends Repository<Product> {
   public async findProducts(products: IFindProducts[]) {
     const idProducts = products.map(product => product.id);
 
-    const productsInDatabase = await this.find({
+    const productsInDatabase = await this.ormRepository.find({
       select: ['id', 'price', 'quantity'],
       where: {
         id: In(idProducts),
@@ -27,5 +31,30 @@ export class ProductRepository extends Repository<Product> {
     });
 
     return productsInDatabase;
+  }
+
+  public async create({ name, price, quantity }: ICreateProduct) {
+    const product = this.ormRepository.create({
+      name,
+      quantity,
+      price,
+    });
+
+    await this.ormRepository.save(product);
+
+    return product;
+  }
+
+  public async save(product: Product) {
+    await this.ormRepository.save(product);
+    return product;
+  }
+
+  public async find() {
+    return this.ormRepository.find();
+  }
+
+  public async remove(product: Product) {
+    return this.ormRepository.remove(product);
   }
 }
