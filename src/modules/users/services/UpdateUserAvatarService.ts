@@ -1,18 +1,21 @@
 import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
 import fs from 'fs/promises';
+import { IUpdateUserAvatar } from '../domain/modules/IUpdateUserAvatar';
+import { inject, injectable } from 'tsyringe';
 import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 
-interface IRequest {
-  userId: string;
-  avatarFileName: string;
-}
-
+@injectable()
 export class UpdateUserAvatarService {
-  public async execute({ avatarFileName, userId }: IRequest): Promise<void> {
-    const userRepository = getCustomRepository(UserRepository);
-
-    const user = await userRepository.findById(userId);
+  constructor(
+    @inject('UserRepository')
+    private userRepository: UserRepository,
+  ) {}
+  public async execute({
+    avatarFileName,
+    userId,
+  }: IUpdateUserAvatar): Promise<void> {
+    const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new AppError('Usuário não encontrado', 404);
     }
@@ -22,6 +25,6 @@ export class UpdateUserAvatarService {
     }
 
     user.avatar = avatarFileName;
-    await userRepository.save(user);
+    await this.userRepository.save(user);
   }
 }

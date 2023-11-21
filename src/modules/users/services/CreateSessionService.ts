@@ -1,51 +1,37 @@
 import auth from '@config/auth';
-import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import { ICreateSession } from '../domain/modules/ICreateSession';
+import { ISession } from '../domain/modules/ISession';
+import { inject, injectable } from 'tsyringe';
 import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
+import { instanceToInstance } from 'class-transformer';
 
-interface IRequest {
-  email: string;
-  password: string;
-}
-
-interface IUserResponse {
-  id: string;
-  name: string;
-  email: string;
-  created_at: Date;
-  updated_at: Date;
-}
-
-interface ISession {
-  user: IUserResponse;
-  token: string;
-}
-
+@injectable()
 export class CreateSessionService {
-  public async execute({ email, password }: IRequest): Promise<ISession> {
-    const userRepository = getCustomRepository(UserRepository);
-    const user = await userRepository.findOne({
-      where: {
-        email,
-      },
-    });
+  constructor(
+    @inject('UserRepository')
+    private userRepository: UserRepository,
+  ) {}
+  public async execute({ email, password }: ICreateSession): Promise<ISession> {
+    const user = await this.userRepository.findByEmail(email);
+
     if (!user) {
       throw new AppError('Usuário e/ou senha inválidos', 404);
     }
-    const validatePassword = await bcrypt.compare(password, user.password);
+    const validatePassword = await compare(password, user.password);
     if (!validatePassword) {
       throw new AppError('Usuário e/ou senha inválidos', 404);
     }
 
-    const token = jwt.sign({}, auth.jwt.secret_key, {
+    const token = sign({}, auth.jwt.secret_key, {
       subject: user.id,
       expiresIn: auth.jwt.expiresIn,
     });
 
-    const { password: _, ...allInfoUser } = user;
+    const dataUser = instanceToInstance(user);
 
-    return { user: allInfoUser, token };
+    return { user: dataUser, token };
   }
 }
