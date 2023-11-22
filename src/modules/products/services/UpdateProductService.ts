@@ -1,6 +1,5 @@
-import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
-import { RedisCache } from '@shared/cache/RedisCache';
+import redisCache from '@shared/cache/RedisCache';
 import { ProductRepository } from '../infra/typeorm/repositories/ProductRepository';
 import { IUpdateProduct } from '../domain/models/IUpdateProduct';
 import { inject, injectable } from 'tsyringe';
@@ -12,8 +11,6 @@ export class UpdateProductService {
     private productRepository: ProductRepository,
   ) {}
   public async execute({ id, name, quantity, price }: IUpdateProduct) {
-    const redisCache = new RedisCache();
-
     const product = await this.productRepository.findById(id);
     if (!product) {
       throw new AppError('Produto não encontrado', 404);

@@ -1,5 +1,5 @@
 import { AppError } from '@shared/errors/AppError';
-import { RedisCache } from '@shared/cache/RedisCache';
+import redisCache from '@shared/cache/RedisCache';
 import { ICreateProduct } from '../domain/models/ICreateProduct';
 import { inject, injectable } from 'tsyringe';
 import { IProductRepository } from '../domain/repositories/IProductRepository';
@@ -11,8 +11,6 @@ export class CreateProductService {
     private productRepository: IProductRepository,
   ) {}
   public async execute({ name, price, quantity }: ICreateProduct) {
-    const redisCache = new RedisCache();
-
     const isProductExists = await this.productRepository.findByName(name);
     if (isProductExists) {
       throw new AppError('Já existe um produto com esse mesmo nome.');
