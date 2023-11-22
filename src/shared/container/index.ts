@@ -1,5 +1,7 @@
 import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
 import { CustomerRepository } from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
+import { IOrderRepository } from '@modules/orders/domain/repositories/IOrderRepository';
+import { OrderRepository } from '@modules/orders/infra/typeorm/repositories/OrderRepository';
 import { IProductRepository } from '@modules/products/domain/repositories/IProductRepository';
 import { ProductRepository } from '@modules/products/infra/typeorm/repositories/ProductRepository';
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
@@ -22,4 +24,9 @@ container.registerSingleton<IUserTokenRepository>(
 container.registerSingleton<IProductRepository>(
   'ProductRepository',
   ProductRepository,
+);
+
+container.registerSingleton<IOrderRepository>(
+  'OrderRepository',
+  OrderRepository,
 );

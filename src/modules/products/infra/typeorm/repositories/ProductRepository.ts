@@ -3,6 +3,7 @@ import { Product } from '../entities/Product';
 import { IFindProducts } from '@modules/products/domain/models/IFindProducts';
 import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
 import { IProductRepository } from '@modules/products/domain/repositories/IProductRepository';
+import { IUpdateStockProducts } from '@modules/products/domain/models/IUpdateStockProducts';
 
 export class ProductRepository implements IProductRepository {
   private ormRepository: Repository<Product>;
@@ -65,5 +66,11 @@ export class ProductRepository implements IProductRepository {
 
   public async remove(product: Product) {
     return this.ormRepository.remove(product);
+  }
+
+  public async updateStockProducts(
+    products: IUpdateStockProducts[],
+  ): Promise<void> {
+    await this.ormRepository.save(products);
   }
 }
