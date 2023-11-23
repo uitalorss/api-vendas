@@ -21,5 +21,6 @@ export class CreateCustomerService {
       name,
       email,
     });
+    return newCustomer;
   }
 }
