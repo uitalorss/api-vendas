@@ -49,6 +49,6 @@ export class TestCustomerRepository implements ICustomerRepository {
   }
 
   public async find() {
-    return undefined;
+    return this.customers;
   }
 }

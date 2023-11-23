@@ -1,12 +1,7 @@
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { ICustomerRepository } from '../domain/repositories/ICustomerRepository';
-
-interface IRequest {
-  id: string;
-  name: string;
-  email: string;
-}
+import { IUpdateCustomer } from '../domain/models/IUpdateCustomer';
 
 @injectable()
 export class UpdateCustomerService {
@@ -14,7 +9,7 @@ export class UpdateCustomerService {
     @inject('CustomerRepository')
     private customerRepository: ICustomerRepository,
   ) {}
-  public async execute({ id, name, email }: IRequest) {
+  public async execute({ id, name, email }: IUpdateCustomer) {
     const customer = await this.customerRepository.findById(id);
     if (!customer) {
       throw new AppError('Cliente não encontrado', 404);
