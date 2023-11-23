@@ -1,20 +1,20 @@
 import { AppError } from '@shared/errors/AppError';
-import { TestCustomerRepository } from '../domain/repositories/tests/TestCustomerRepository';
+import { MockCustomerRepository } from '../domain/repositories/mocks/MockCustomerRepository';
 import { CreateCustomerService } from './CreateCustomerService';
 import { DeleteCustomerService } from './DeleteCustomerService';
 
-let testCustomerRepository: TestCustomerRepository;
+let mockCustomerRepository: MockCustomerRepository;
 let deleteCustomerService: DeleteCustomerService;
 let createCustomerService: CreateCustomerService;
 
 describe('Delete Customer', () => {
   beforeEach(() => {
-    testCustomerRepository = new TestCustomerRepository();
-    deleteCustomerService = new DeleteCustomerService(testCustomerRepository);
+    mockCustomerRepository = new MockCustomerRepository();
+    deleteCustomerService = new DeleteCustomerService(mockCustomerRepository);
   });
 
   test('should be able to delete a customer', async () => {
-    createCustomerService = new CreateCustomerService(testCustomerRepository);
+    createCustomerService = new CreateCustomerService(mockCustomerRepository);
     const customer = await createCustomerService.execute({
       name: 'teste',
       email: 'teste@teste.com',

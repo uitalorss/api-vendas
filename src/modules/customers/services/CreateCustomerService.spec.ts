@@ -1,15 +1,15 @@
 import 'reflect-metadata';
-import { TestCustomerRepository } from '../domain/repositories/tests/TestCustomerRepository';
+import { MockCustomerRepository } from '../domain/repositories/mocks/MockCustomerRepository';
 import { CreateCustomerService } from './CreateCustomerService';
 import { AppError } from '@shared/errors/AppError';
 
-let testCustomerRepository: TestCustomerRepository;
+let mockCustomerRepository: MockCustomerRepository;
 let createCustomerService: CreateCustomerService;
 
 describe('CreateCustomer', () => {
   beforeEach(() => {
-    testCustomerRepository = new TestCustomerRepository();
-    createCustomerService = new CreateCustomerService(testCustomerRepository);
+    mockCustomerRepository = new MockCustomerRepository();
+    createCustomerService = new CreateCustomerService(mockCustomerRepository);
   });
 
   it('should be able to create a new customer', async () => {

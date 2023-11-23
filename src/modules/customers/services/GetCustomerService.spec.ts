@@ -1,18 +1,18 @@
 import { AppError } from '@shared/errors/AppError';
-import { TestCustomerRepository } from '../domain/repositories/tests/TestCustomerRepository';
 import { Customer } from '../infra/typeorm/entities/Customer';
 import { CreateCustomerService } from './CreateCustomerService';
 import { GetCustomerService } from './GetCustomerService';
+import { MockCustomerRepository } from '../domain/repositories/mocks/MockCustomerRepository';
 
-let testCustomerRepository: TestCustomerRepository;
+let mockCustomerRepository: MockCustomerRepository;
 let createCustomerService: CreateCustomerService;
 let getCustomerService: GetCustomerService;
 
 describe('Get Customer', () => {
   beforeEach(() => {
-    testCustomerRepository = new TestCustomerRepository();
-    createCustomerService = new CreateCustomerService(testCustomerRepository);
-    getCustomerService = new GetCustomerService(testCustomerRepository);
+    mockCustomerRepository = new MockCustomerRepository();
+    createCustomerService = new CreateCustomerService(mockCustomerRepository);
+    getCustomerService = new GetCustomerService(mockCustomerRepository);
   });
   test('should be able to get a customer.', async () => {
     const customer = await createCustomerService.execute({

@@ -6,12 +6,13 @@ import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 import { ICreateUser } from '../domain/models/ICreateUser';
 import { inject, injectable } from 'tsyringe';
 import { CustomerRepository } from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 export class CreateUserService {
   constructor(
     @inject('UserRepository')
-    private userRepository: UserRepository,
+    private userRepository: IUserRepository,
   ) {}
   public async execute({ name, email, password }: ICreateUser): Promise<User> {
     const isEmailAlreadyExists = await this.userRepository.findByEmail(email);

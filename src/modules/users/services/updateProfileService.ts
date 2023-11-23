@@ -1,15 +1,14 @@
-import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
 import { compare, hash } from 'bcrypt';
-import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 import { IUpdateUser } from '../domain/models/IUpdateUser';
 import { inject, injectable } from 'tsyringe';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 export class UpdateProfileService {
   constructor(
     @inject('UserRepository')
-    private userRepository: UserRepository,
+    private userRepository: IUserRepository,
   ) {}
   public async execute({
     userId,

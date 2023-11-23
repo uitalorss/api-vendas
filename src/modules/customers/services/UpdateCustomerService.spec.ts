@@ -1,18 +1,18 @@
 import { AppError } from '@shared/errors/AppError';
-import { TestCustomerRepository } from '../domain/repositories/tests/TestCustomerRepository';
 import { Customer } from '../infra/typeorm/entities/Customer';
 import { CreateCustomerService } from './CreateCustomerService';
 import { UpdateCustomerService } from './UpdateCustomerService';
+import { MockCustomerRepository } from '../domain/repositories/mocks/MockCustomerRepository';
 
-let testCustomerRepository: TestCustomerRepository;
+let mockCustomerRepository: MockCustomerRepository;
 let updateCustomerService: UpdateCustomerService;
 let createCustomerService: CreateCustomerService;
 
 describe('Update Customer', () => {
   beforeEach(() => {
-    testCustomerRepository = new TestCustomerRepository();
-    createCustomerService = new CreateCustomerService(testCustomerRepository);
-    updateCustomerService = new UpdateCustomerService(testCustomerRepository);
+    mockCustomerRepository = new MockCustomerRepository();
+    createCustomerService = new CreateCustomerService(mockCustomerRepository);
+    updateCustomerService = new UpdateCustomerService(mockCustomerRepository);
   });
   test('should be able to update informations of a customer', async () => {
     const customer = await createCustomerService.execute({
@@ -24,7 +24,7 @@ describe('Update Customer', () => {
       Customer,
     );
   });
-  test('should be able to identify that custober will be updated not exists', async () => {
+  test('should be able to identify that customer will be updated not exists', async () => {
     const customer = {
       id: 'dd97dde1-a5f4-4117-8fd5-0f0a9a8bab8b',
       name: 'teste',

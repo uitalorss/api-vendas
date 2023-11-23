@@ -3,7 +3,7 @@ import { ICreateCustomer } from '../../models/ICreateCustomer';
 import { v4 as uuidv4 } from 'uuid';
 import { ICustomerRepository } from '../ICustomerRepository';
 
-export class TestCustomerRepository implements ICustomerRepository {
+export class MockCustomerRepository implements ICustomerRepository {
   private customers: Customer[] = [];
 
   public async findByName(name: string) {
