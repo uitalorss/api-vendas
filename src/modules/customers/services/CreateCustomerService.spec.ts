@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import { TestCustomerRepository } from '../domain/repositories/tests/TestCustomerRepository';
 import { CreateCustomerService } from './CreateCustomerService';
 import { AppError } from '@shared/errors/AppError';
-import { beforeEach } from 'node:test';
 
 let testCustomerRepository: TestCustomerRepository;
 let createCustomerService: CreateCustomerService;
@@ -13,7 +12,7 @@ describe('CreateCustomer', () => {
     createCustomerService = new CreateCustomerService(testCustomerRepository);
   });
 
-  test('should be able to create a new customer', async () => {
+  it('should be able to create a new customer', async () => {
     const customer = await createCustomerService.execute({
       name: 'teste',
       email: 'teste@teste.com',

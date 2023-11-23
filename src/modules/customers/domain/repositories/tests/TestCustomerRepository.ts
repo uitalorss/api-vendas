@@ -36,7 +36,9 @@ export class TestCustomerRepository implements ICustomerRepository {
     const findCustomer = this.customers.findIndex(
       findCustomer => findCustomer.id === customer.id,
     );
-    return (this.customers[findCustomer] = customer);
+
+    this.customers[findCustomer] = customer;
+    return customer;
   }
 
   public async remove(customer: Customer) {

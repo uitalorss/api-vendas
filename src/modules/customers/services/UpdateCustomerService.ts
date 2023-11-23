@@ -34,5 +34,6 @@ export class UpdateCustomerService {
     customer.email = email;
 
     await this.customerRepository.save(customer);
+    return customer;
   }
 }
