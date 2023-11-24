@@ -57,4 +57,9 @@ export class UserRepository implements IUserRepository {
     await this.ormRepository.save(user);
     return user;
   }
+
+  public async remove(user: User) {
+    await this.ormRepository.remove(user);
+    return user;
+  }
 }

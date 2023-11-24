@@ -3,13 +3,13 @@ import { AppError } from '@shared/errors/AppError';
 import fs from 'fs/promises';
 import { IUpdateUserAvatar } from '../domain/models/IUpdateUserAvatar';
 import { inject, injectable } from 'tsyringe';
-import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 export class UpdateUserAvatarService {
   constructor(
     @inject('UserRepository')
-    private userRepository: UserRepository,
+    private userRepository: IUserRepository,
   ) {}
   public async execute({
     avatarFileName,

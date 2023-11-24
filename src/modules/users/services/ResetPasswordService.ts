@@ -1,11 +1,9 @@
-import { getCustomRepository } from 'typeorm';
 import { AppError } from '@shared/errors/AppError';
 import { addHours, isAfter } from 'date-fns';
 import { hash } from 'bcrypt';
-import { UserTokenRepository } from '../infra/typeorm/repositories/UserTokenRepository';
-import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 import { inject } from 'tsyringe';
-import { User } from '../infra/typeorm/entities/User';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
 
 interface IRequest {
   token: string;
@@ -15,9 +13,9 @@ interface IRequest {
 export class ResetPasswordService {
   constructor(
     @inject('UserRepository')
-    private userRepository: UserRepository,
+    private userRepository: IUserRepository,
     @inject('UserTokenRepository')
-    private userTokenRepository: UserTokenRepository,
+    private userTokenRepository: IUserTokenRepository,
   ) {}
   public async execute({ token, password }: IRequest) {
     const userToken = await this.userTokenRepository.findByToken(token);

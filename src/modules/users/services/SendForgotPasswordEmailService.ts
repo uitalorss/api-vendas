@@ -5,6 +5,8 @@ import path from 'path';
 import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 import { UserTokenRepository } from '../infra/typeorm/repositories/UserTokenRepository';
 import { inject } from 'tsyringe';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
 
 interface IRequest {
   email: string;
@@ -22,9 +24,9 @@ const templateResetPassword = path.resolve(
 export class SendForgotPasswordEmailService {
   constructor(
     @inject('UserRepository')
-    private userRepository: UserRepository,
+    private userRepository: IUserRepository,
     @inject('UserTokenRepository')
-    private userTokenRepository: UserTokenRepository,
+    private userTokenRepository: IUserTokenRepository,
   ) {}
   public async execute({ email }: IRequest) {
     const user = await this.userRepository.findByEmail(email);
@@ -45,5 +47,6 @@ export class SendForgotPasswordEmailService {
         },
       },
     });
+    return userToken;
   }
 }

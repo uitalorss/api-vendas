@@ -37,4 +37,10 @@ export class MockUserRepository implements IUserRepository {
     this.users[findUser] = user;
     return user;
   }
+
+  public async remove(user: User): Promise<IUser> {
+    const userToBeRemoved = this.users.findIndex(item => item.id === user.id);
+    this.users.splice(userToBeRemoved, 1);
+    return user;
+  }
 }
