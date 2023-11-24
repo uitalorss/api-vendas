@@ -5,14 +5,14 @@ import { sign } from 'jsonwebtoken';
 import { ICreateSession } from '../domain/models/ICreateSession';
 import { ISession } from '../domain/models/ISession';
 import { inject, injectable } from 'tsyringe';
-import { UserRepository } from '../infra/typeorm/repositories/UserRepository';
 import { instanceToInstance } from 'class-transformer';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 export class CreateSessionService {
   constructor(
     @inject('UserRepository')
-    private userRepository: UserRepository,
+    private userRepository: IUserRepository,
   ) {}
   public async execute({ email, password }: ICreateSession): Promise<ISession> {
     const user = await this.userRepository.findByEmail(email);
