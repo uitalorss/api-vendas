@@ -1,14 +1,14 @@
 import { AppError } from '@shared/errors/AppError';
 import redisCache from '@shared/cache/RedisCache';
-import { ProductRepository } from '../infra/typeorm/repositories/ProductRepository';
 import { IUpdateProduct } from '../domain/models/IUpdateProduct';
 import { inject, injectable } from 'tsyringe';
+import { IProductRepository } from '../domain/repositories/IProductRepository';
 
 @injectable()
 export class UpdateProductService {
   constructor(
     @inject('ProductRepository')
-    private productRepository: ProductRepository,
+    private productRepository: IProductRepository,
   ) {}
   public async execute({ id, name, quantity, price }: IUpdateProduct) {
     const product = await this.productRepository.findById(id);

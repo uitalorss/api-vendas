@@ -4,6 +4,7 @@ import { IFindProducts } from '@modules/products/domain/models/IFindProducts';
 import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
 import { IProductRepository } from '@modules/products/domain/repositories/IProductRepository';
 import { IUpdateStockProducts } from '@modules/products/domain/models/IUpdateStockProducts';
+import { IProduct } from '@modules/products/domain/models/IProduct';
 
 export class ProductRepository implements IProductRepository {
   private ormRepository: Repository<Product>;
@@ -60,7 +61,7 @@ export class ProductRepository implements IProductRepository {
     return product;
   }
 
-  public async find() {
+  public async find(): Promise<IProduct[]> {
     return this.ormRepository.find();
   }
 
