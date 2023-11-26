@@ -1,15 +1,12 @@
 import { AppError } from '@shared/errors/AppError';
 import { addHours, isAfter } from 'date-fns';
 import { hash } from 'bcrypt';
-import { inject } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
 import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
+import { IUsertokenRequest } from '../domain/models/IUserTokenRequest';
 
-interface IRequest {
-  token: string;
-  password: string;
-}
-
+@injectable()
 export class ResetPasswordService {
   constructor(
     @inject('UserRepository')
@@ -17,7 +14,7 @@ export class ResetPasswordService {
     @inject('UserTokenRepository')
     private userTokenRepository: IUserTokenRepository,
   ) {}
-  public async execute({ token, password }: IRequest) {
+  public async execute({ token, password }: IUsertokenRequest) {
     const userToken = await this.userTokenRepository.findByToken(token);
     if (!userToken) {
       throw new AppError('Token inválido');
