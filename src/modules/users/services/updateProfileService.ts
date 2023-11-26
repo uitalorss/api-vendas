@@ -1,31 +1,28 @@
-import { getCustomRepository } from 'typeorm';
-import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { AppError } from '@shared/errors/AppError';
 import { compare, hash } from 'bcrypt';
+import { IUpdateUser } from '../domain/models/IUpdateUser';
+import { inject, injectable } from 'tsyringe';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
-interface IRequest {
-  userId: string;
-  name: string;
-  email: string;
-  password?: string;
-  oldPassword?: string;
-}
-
+@injectable()
 export class UpdateProfileService {
+  constructor(
+    @inject('UserRepository')
+    private userRepository: IUserRepository,
+  ) {}
   public async execute({
     userId,
     name,
     email,
     password,
     oldPassword,
-  }: IRequest) {
-    const userRepository = getCustomRepository(UserRepository);
-
-    const user = await userRepository.findById(userId);
+  }: IUpdateUser) {
+    const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new AppError('Usuário não encontrado');
     }
-    const userAlreadyUseThisEmail = await userRepository.findByEmail(email);
+    const userAlreadyUseThisEmail =
+      await this.userRepository.findByEmail(email);
 
     if (userAlreadyUseThisEmail && userAlreadyUseThisEmail.id !== user.id) {
       throw new AppError('Esse email já se encontra em uso.');
@@ -47,6 +44,6 @@ export class UpdateProfileService {
     user.name = name;
     user.email = email;
 
-    await userRepository.save(user);
+    await this.userRepository.save(user);
   }
 }

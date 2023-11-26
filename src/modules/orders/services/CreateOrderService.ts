@@ -1,30 +1,29 @@
 import { getCustomRepository } from 'typeorm';
-import { OrderRepository } from '../typeorm/repositories/OrderRepository';
-import { CustomerRepository } from '@modules/customers/typeorm/repositories/CustomerRepository';
+
 import { AppError } from '@shared/errors/AppError';
-import { ProductRepository } from '@modules/products/typeorm/repositories/ProductRepository';
+import { OrderRepository } from '../infra/typeorm/repositories/OrderRepository';
+import { CustomerRepository } from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
+import { ProductRepository } from '@modules/products/infra/typeorm/repositories/ProductRepository';
+import { IRequestCreateOrder } from '../domain/models/IRequestCreateOrder';
+import { inject, injectable } from 'tsyringe';
 
-interface IProduct {
-  id: string;
-  quantity: number;
-}
-
-interface IRequest {
-  customer_id: string;
-  products: IProduct[];
-}
-
+@injectable()
 export class CreateOrderService {
-  public async execute({ customer_id, products }: IRequest) {
-    const orderRepository = getCustomRepository(OrderRepository);
-    const customerRepository = getCustomRepository(CustomerRepository);
-    const productRepository = getCustomRepository(ProductRepository);
-    const customer = await customerRepository.findById(customer_id);
+  constructor(
+    @inject('OrderRepository')
+    private orderRepository: OrderRepository,
+    @inject('CustomerRepository')
+    private customerRepository: CustomerRepository,
+    @inject('ProductRepository')
+    private productRepository: ProductRepository,
+  ) {}
+  public async execute({ customer_id, products }: IRequestCreateOrder) {
+    const customer = await this.customerRepository.findById(customer_id);
     if (!customer) {
       throw new AppError('Cliente não encontrado', 404);
     }
 
-    const dbProducts = await productRepository.findProducts(products);
+    const dbProducts = await this.productRepository.findProducts(products);
 
     if (!dbProducts.length) {
       throw new AppError('Nenhum produto informado existe.', 404);
@@ -62,7 +61,7 @@ export class CreateOrderService {
 
     console.log(filledProducts);
 
-    const newOrder = await orderRepository.createOrder({
+    const newOrder = await this.orderRepository.create({
       customer,
       products: filledProducts,
     });
@@ -75,7 +74,7 @@ export class CreateOrderService {
           .quantity - product.quantity,
     }));
 
-    await productRepository.save(updateProducts);
+    await this.productRepository.updateStockProducts(updateProducts);
 
     return newOrder;
   }

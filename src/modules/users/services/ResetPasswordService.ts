@@ -1,9 +1,9 @@
-import { getCustomRepository } from 'typeorm';
-import { UserTokenRepository } from '../typeorm/repositories/UserTokenRepository';
 import { AppError } from '@shared/errors/AppError';
-import { UserRepository } from '../typeorm/repositories/UserRepository';
 import { addHours, isAfter } from 'date-fns';
 import { hash } from 'bcrypt';
+import { inject } from 'tsyringe';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
 
 interface IRequest {
   token: string;
@@ -11,16 +11,19 @@ interface IRequest {
 }
 
 export class ResetPasswordService {
+  constructor(
+    @inject('UserRepository')
+    private userRepository: IUserRepository,
+    @inject('UserTokenRepository')
+    private userTokenRepository: IUserTokenRepository,
+  ) {}
   public async execute({ token, password }: IRequest) {
-    const userTokenRepository = getCustomRepository(UserTokenRepository);
-    const userRepository = getCustomRepository(UserRepository);
-
-    const userToken = await userTokenRepository.findByToken(token);
+    const userToken = await this.userTokenRepository.findByToken(token);
     if (!userToken) {
       throw new AppError('Token inválido');
     }
 
-    const user = await userRepository.findById(userToken.user_id);
+    const user = await this.userRepository.findById(userToken.user_id);
     if (!user) {
       throw new AppError('Usuário inválido');
     }
@@ -32,6 +35,6 @@ export class ResetPasswordService {
 
     const encryptedPassword = await hash(password, 10);
     user.password = encryptedPassword;
-    userRepository.save(user);
+    this.userRepository.save(user);
   }
 }
