@@ -1,5 +1,5 @@
 import { CreateCustomerService } from '@modules/customers/services/CreateCustomerService';
-import { DeleteCustomerService } from '@modules/customers/services/IRequest';
+import { DeleteCustomerService } from '@modules/customers/services/DeleteCustomerService';
 import { GetCustomerService } from '@modules/customers/services/GetCustomerService';
 import { ListCustomersService } from '@modules/customers/services/ListCustomersService';
 import { UpdateCustomerService } from '@modules/customers/services/UpdateCustomerService';
