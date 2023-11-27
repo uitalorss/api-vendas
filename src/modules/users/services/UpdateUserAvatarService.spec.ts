@@ -4,15 +4,21 @@ import { CreateUserService } from './CreateUserService';
 import { UpdateUserAvatarService } from './UpdateUserAvatarService';
 import { User } from '../infra/typeorm/entities/User';
 import { AppError } from '@shared/errors/AppError';
+import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
 
 let mockUserRepository: MockUserRepository;
+let mockHashProvider: MockHashProvider;
 let createUserService: CreateUserService;
 let updateUserAvatarService: UpdateUserAvatarService;
 
 describe('Update avatar', () => {
   beforeEach(() => {
     mockUserRepository = new MockUserRepository();
-    createUserService = new CreateUserService(mockUserRepository);
+    mockHashProvider = new MockHashProvider();
+    createUserService = new CreateUserService(
+      mockUserRepository,
+      mockHashProvider,
+    );
     updateUserAvatarService = new UpdateUserAvatarService(mockUserRepository);
   });
   test("should be able to update user's avatar.", async () => {

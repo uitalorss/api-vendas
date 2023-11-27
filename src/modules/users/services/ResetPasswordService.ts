@@ -5,6 +5,7 @@ import { injectable, inject } from 'tsyringe';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
 import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
 import { IUsertokenRequest } from '../domain/models/IUserTokenRequest';
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 
 @injectable()
 export class ResetPasswordService {
@@ -13,6 +14,8 @@ export class ResetPasswordService {
     private userRepository: IUserRepository,
     @inject('UserTokenRepository')
     private userTokenRepository: IUserTokenRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
   public async execute({ token, password }: IUsertokenRequest) {
     const userToken = await this.userTokenRepository.findByToken(token);
@@ -30,7 +33,7 @@ export class ResetPasswordService {
       throw new AppError('Token expirado.');
     }
 
-    const encryptedPassword = await hash(password, 10);
+    const encryptedPassword = await this.hashProvider.generateHash(password);
     user.password = encryptedPassword;
     this.userRepository.save(user);
   }

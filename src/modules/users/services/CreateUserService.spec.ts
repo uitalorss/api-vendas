@@ -1,14 +1,20 @@
 import { AppError } from '@shared/errors/AppError';
 import { MockUserRepository } from '../domain/repositories/mocks/MockUserRepository';
+import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
 import { CreateUserService } from './CreateUserService';
 
 let mockUserRepository: MockUserRepository;
+let mockHashProvider: MockHashProvider;
 let createUserService: CreateUserService;
 
 describe('Create User', () => {
   beforeEach(() => {
     mockUserRepository = new MockUserRepository();
-    createUserService = new CreateUserService(mockUserRepository);
+    mockHashProvider = new MockHashProvider();
+    createUserService = new CreateUserService(
+      mockUserRepository,
+      mockHashProvider,
+    );
   });
   test('should be able to create a user', async () => {
     const user = await createUserService.execute({

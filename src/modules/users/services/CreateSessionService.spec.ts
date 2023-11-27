@@ -1,18 +1,26 @@
 import { AppError } from '@shared/errors/AppError';
-import { ISession } from '../domain/models/ISession';
 import { MockUserRepository } from '../domain/repositories/mocks/MockUserRepository';
+import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
 import { CreateSessionService } from './CreateSessionService';
 import { CreateUserService } from './CreateUserService';
 
 let mockUserRepository: MockUserRepository;
+let mockHashProvider: MockHashProvider;
 let createUserService: CreateUserService;
 let createSessionService: CreateSessionService;
 
 describe('CreateSession', () => {
   beforeEach(() => {
     mockUserRepository = new MockUserRepository();
-    createUserService = new CreateUserService(mockUserRepository);
-    createSessionService = new CreateSessionService(mockUserRepository);
+    mockHashProvider = new MockHashProvider();
+    createUserService = new CreateUserService(
+      mockUserRepository,
+      mockHashProvider,
+    );
+    createSessionService = new CreateSessionService(
+      mockUserRepository,
+      mockHashProvider,
+    );
   });
   test('should be able to create a session', async () => {
     await createUserService.execute({

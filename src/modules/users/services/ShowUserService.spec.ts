@@ -3,16 +3,22 @@ import { MockUserRepository } from '../domain/repositories/mocks/MockUserReposit
 import { User } from '../infra/typeorm/entities/User';
 import { CreateUserService } from './CreateUserService';
 import { ShowUserService } from './showUserService';
+import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
 
 let mockUserRepository: MockUserRepository;
+let mockHashProvider: MockHashProvider;
 let createUserService: CreateUserService;
 let showUserService: ShowUserService;
 
 describe('Show User', () => {
   beforeEach(() => {
     mockUserRepository = new MockUserRepository();
+    mockHashProvider = new MockHashProvider();
     showUserService = new ShowUserService(mockUserRepository);
-    createUserService = new CreateUserService(mockUserRepository);
+    createUserService = new CreateUserService(
+      mockUserRepository,
+      mockHashProvider,
+    );
   });
   test('should be able to show a user', async () => {
     const user = await createUserService.execute({

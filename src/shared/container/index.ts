@@ -9,6 +9,8 @@ import { IUserTokenRepository } from '@modules/users/domain/repositories/IUserTo
 import { UserRepository } from '@modules/users/infra/typeorm/repositories/UserRepository';
 import { UserTokenRepository } from '@modules/users/infra/typeorm/repositories/UserTokenRepository';
 import { container } from 'tsyringe';
+import { IHashProvider } from '@modules/users/providers/HashProvider/models/IHashProvider';
+import { HashProvider } from '@modules/users/providers/HashProvider/implementations/HashProvider';
 
 container.registerSingleton<ICustomerRepository>(
   'CustomerRepository',
@@ -30,3 +32,5 @@ container.registerSingleton<IOrderRepository>(
   'OrderRepository',
   OrderRepository,
 );
+
+container.registerSingleton<IHashProvider>('HashProvider', HashProvider);

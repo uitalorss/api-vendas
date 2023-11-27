@@ -3,8 +3,10 @@ import { MockUserRepository } from '../domain/repositories/mocks/MockUserReposit
 import { MockUserTokenRepository } from '../domain/repositories/mocks/MockUserTokenRepository';
 import { CreateUserService } from './CreateUserService';
 import { SendForgotPasswordEmailService } from './SendForgotPasswordEmailService';
+import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
 
 let mockUserRepository: MockUserRepository;
+let mockHashProvider: MockHashProvider;
 let mockUserTokenRepository: MockUserTokenRepository;
 let createUserService: CreateUserService;
 let sendForgotPasswordEmailService: SendForgotPasswordEmailService;
@@ -13,8 +15,12 @@ describe('send forgot password email', () => {
   beforeEach(() => {
     mockUserRepository = new MockUserRepository();
     mockUserTokenRepository = new MockUserTokenRepository();
+    mockHashProvider = new MockHashProvider();
 
-    createUserService = new CreateUserService(mockUserRepository);
+    createUserService = new CreateUserService(
+      mockUserRepository,
+      mockHashProvider,
+    );
     sendForgotPasswordEmailService = new SendForgotPasswordEmailService(
       mockUserRepository,
       mockUserTokenRepository,

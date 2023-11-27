@@ -7,12 +7,16 @@ import { ISession } from '../domain/models/ISession';
 import { injectable, inject } from 'tsyringe';
 import { instanceToInstance } from 'class-transformer';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { HashProvider } from '../providers/HashProvider/implementations/HashProvider';
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 
 @injectable()
 export class CreateSessionService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
   public async execute({ email, password }: ICreateSession): Promise<ISession> {
     const user = await this.userRepository.findByEmail(email);
@@ -20,7 +24,11 @@ export class CreateSessionService {
     if (!user) {
       throw new AppError('Usuário e/ou senha inválidos', 404);
     }
-    const validatePassword = await compare(password, user.password);
+
+    const validatePassword = await this.hashProvider.compare(
+      password,
+      user.password,
+    );
     if (!validatePassword) {
       throw new AppError('Usuário e/ou senha inválidos', 404);
     }

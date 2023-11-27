@@ -1,18 +1,26 @@
 import { AppError } from '@shared/errors/AppError';
 import { MockUserRepository } from '../domain/repositories/mocks/MockUserRepository';
-import { User } from '../infra/typeorm/entities/User';
 import { CreateUserService } from './CreateUserService';
 import { UpdateProfileService } from './updateProfileService';
+import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
 
 let mockUserRepository: MockUserRepository;
+let mockHashProvider: MockHashProvider;
 let createUserService: CreateUserService;
 let updateProfileService: UpdateProfileService;
 
 describe('Update profile', () => {
   beforeEach(() => {
     mockUserRepository = new MockUserRepository();
-    createUserService = new CreateUserService(mockUserRepository);
-    updateProfileService = new UpdateProfileService(mockUserRepository);
+    mockHashProvider = new MockHashProvider();
+    createUserService = new CreateUserService(
+      mockUserRepository,
+      mockHashProvider,
+    );
+    updateProfileService = new UpdateProfileService(
+      mockUserRepository,
+      mockHashProvider,
+    );
   });
   test('should be able to update a user', async () => {
     const user = await createUserService.execute({

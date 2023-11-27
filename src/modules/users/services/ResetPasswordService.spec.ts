@@ -4,9 +4,10 @@ import { MockUserTokenRepository } from '../domain/repositories/mocks/MockUserTo
 import { CreateUserService } from './CreateUserService';
 import { ResetPasswordService } from './ResetPasswordService';
 import { SendForgotPasswordEmailService } from './SendForgotPasswordEmailService';
-import { UserToken } from '../infra/typeorm/entities/UserToken';
+import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
 
 let mockUserRepository: MockUserRepository;
+let mockHashProvider: MockHashProvider;
 let mockUserTokenRepository: MockUserTokenRepository;
 let createUserService: CreateUserService;
 let sendForgotPasswordEmailService: SendForgotPasswordEmailService;
@@ -16,11 +17,16 @@ describe('Reset password', () => {
   beforeEach(() => {
     mockUserRepository = new MockUserRepository();
     mockUserTokenRepository = new MockUserTokenRepository();
+    mockHashProvider = new MockHashProvider();
 
-    createUserService = new CreateUserService(mockUserRepository);
+    createUserService = new CreateUserService(
+      mockUserRepository,
+      mockHashProvider,
+    );
     resetPasswordService = new ResetPasswordService(
       mockUserRepository,
       mockUserTokenRepository,
+      mockHashProvider,
     );
     sendForgotPasswordEmailService = new SendForgotPasswordEmailService(
       mockUserRepository,
