@@ -16,8 +16,16 @@ export class MockProductRepository implements IProductRepository {
     const product = this.products.find(item => item.id === id);
     return product;
   }
-  public async findProducts(products: IFindProducts[]): Promise<IProduct[]> {
-    throw new Error('Method not implemented.');
+  public async findProducts(productList: IFindProducts[]): Promise<IProduct[]> {
+    const filteredProducts: IProduct[] = [];
+    this.products.map(item => {
+      for (const itemList of productList) {
+        if (item.id === itemList.id) {
+          filteredProducts.push(item);
+        }
+      }
+    });
+    return filteredProducts;
   }
   public async create({
     name,
@@ -40,9 +48,15 @@ export class MockProductRepository implements IProductRepository {
     return product;
   }
   public async updateStockProducts(
-    products: IUpdateStockProducts[],
+    productList: IUpdateStockProducts[],
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    this.products.map(item => {
+      for (const itemList of productList) {
+        if (item.id === itemList.id) {
+          item.quantity = item.quantity - itemList.quantity;
+        }
+      }
+    });
   }
   public async remove(product: IProduct): Promise<IProduct> {
     const productToBeRemoved = this.products.findIndex(

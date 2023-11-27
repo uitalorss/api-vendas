@@ -1,21 +1,22 @@
-import { getCustomRepository } from 'typeorm';
-
 import { AppError } from '@shared/errors/AppError';
 import { OrderRepository } from '../infra/typeorm/repositories/OrderRepository';
 import { CustomerRepository } from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
 import { ProductRepository } from '@modules/products/infra/typeorm/repositories/ProductRepository';
 import { IRequestCreateOrder } from '../domain/models/IRequestCreateOrder';
 import { inject, injectable } from 'tsyringe';
+import { IOrderRepository } from '../domain/repositories/IOrderRepository';
+import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
+import { IProductRepository } from '@modules/products/domain/repositories/IProductRepository';
 
 @injectable()
 export class CreateOrderService {
   constructor(
     @inject('OrderRepository')
-    private orderRepository: OrderRepository,
+    private orderRepository: IOrderRepository,
     @inject('CustomerRepository')
-    private customerRepository: CustomerRepository,
+    private customerRepository: ICustomerRepository,
     @inject('ProductRepository')
-    private productRepository: ProductRepository,
+    private productRepository: IProductRepository,
   ) {}
   public async execute({ customer_id, products }: IRequestCreateOrder) {
     const customer = await this.customerRepository.findById(customer_id);
@@ -58,8 +59,6 @@ export class CreateOrderService {
       quantity: product.quantity,
       price: dbProducts.filter(dbItem => dbItem.id === product.id)[0].price,
     }));
-
-    console.log(filledProducts);
 
     const newOrder = await this.orderRepository.create({
       customer,
