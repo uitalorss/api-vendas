@@ -5,29 +5,22 @@ import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
 import { IProductRepository } from '@modules/products/domain/repositories/IProductRepository';
 import { IUpdateStockProducts } from '@modules/products/domain/models/IUpdateStockProducts';
 import { IProduct } from '@modules/products/domain/models/IProduct';
+import { dataSource } from '@shared/infra/typeorm';
 
 export class ProductRepository implements IProductRepository {
   private ormRepository: Repository<Product>;
 
   constructor() {
-    this.ormRepository = getRepository(Product);
+    this.ormRepository = dataSource.getRepository(Product);
   }
 
-  public async findByName(name: string): Promise<Product | undefined> {
-    const product = await this.ormRepository.findOne({
-      where: {
-        name: name,
-      },
-    });
+  public async findByName(name: string) {
+    const product = await this.ormRepository.findOneBy({ name });
     return product;
   }
 
-  public async findById(id: string): Promise<Product | undefined> {
-    const product = await this.ormRepository.findOne({
-      where: {
-        id: id,
-      },
-    });
+  public async findById(id: string) {
+    const product = await this.ormRepository.findOneBy({ id });
     return product;
   }
 

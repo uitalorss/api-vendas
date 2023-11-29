@@ -3,38 +3,27 @@ import { Customer } from '../entities/Customer';
 import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
 import { ICreateCustomer } from '@modules/customers/domain/models/ICreateCustomer';
 import { ICustomer } from '@modules/customers/domain/models/ICustomer';
+import { dataSource } from '@shared/infra/typeorm';
 
 export class CustomerRepository implements ICustomerRepository {
   private ormRepository: Repository<Customer>;
   constructor() {
-    this.ormRepository = getRepository(Customer);
+    this.ormRepository = dataSource.getRepository(Customer);
   }
   public async findByName(name: string) {
-    const customer = await this.ormRepository.findOne({
-      where: {
-        name,
-      },
-    });
-
+    const customer = await this.ormRepository.findOneBy({ name });
     return customer;
   }
 
   public async findByEmail(email: string) {
-    const customer = await this.ormRepository.findOne({
-      where: {
-        email,
-      },
-    });
+    const customer = await this.ormRepository.findOneBy({ email });
 
     return customer;
   }
 
   public async findById(id: string) {
-    const customer = await this.ormRepository.findOne({
-      where: {
-        id,
-      },
-    });
+    const customer = await this.ormRepository.findOneBy({ id });
+
     return customer;
   }
 
