@@ -21,7 +21,7 @@ export class CreateProductService {
       price,
     });
 
-    await redisCache.invalidate('products_api-vendas');
+    //await redisCache.invalidate('products_api-vendas');
     return product;
   }
 }

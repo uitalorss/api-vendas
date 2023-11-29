@@ -1,5 +1,5 @@
-import cache from '@config/cache';
 import Redis, { Redis as RedisClient } from 'ioredis';
+import cache from '@config/cache';
 
 class RedisCache {
   private client: RedisClient;

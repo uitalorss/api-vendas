@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Redis } from 'ioredis';
-import 'dotenv/config';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 import { AppError } from '@shared/errors/AppError';
+import 'dotenv/config';
 
 export async function rateLimiter(
   req: Request,

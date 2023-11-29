@@ -1,5 +1,4 @@
 import redisCache from '@shared/cache/RedisCache';
-import { Product } from '../infra/typeorm/entities/Product';
 import { inject, injectable } from 'tsyringe';
 import { IProductRepository } from '../domain/repositories/IProductRepository';
 import { IProduct } from '../domain/models/IProduct';
@@ -11,12 +10,12 @@ export class ListProductsService {
     private productRepository: IProductRepository,
   ) {}
   public async execute() {
-    let products = await redisCache.recover<IProduct[]>('products_api-vendas');
+    //let products = await redisCache.recover<IProduct[]>('products_api-vendas');
+    const products = await this.productRepository.find();
+    // if (!products) {
 
-    if (!products) {
-      products = await this.productRepository.find();
-      await redisCache.save('products_api-vendas', products);
-    }
+    //   await redisCache.save('products_api-vendas', products);
+    // }
 
     return products;
   }

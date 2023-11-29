@@ -25,7 +25,7 @@ export class UpdateProductService {
     product.price = price;
     product.quantity = quantity;
 
-    await redisCache.invalidate('products_api-vendas');
+    //await redisCache.invalidate('products_api-vendas');
     await this.productRepository.save(product);
     return product;
   }

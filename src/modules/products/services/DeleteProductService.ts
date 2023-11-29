@@ -17,7 +17,7 @@ export class DeleteProductService {
     if (!product) {
       throw new AppError('Produto não encontrado', 404);
     }
-    await redisCache.invalidate('products_api-vendas');
+    //await redisCache.invalidate('products_api-vendas');
     await this.productRepository.remove(product);
   }
 }
