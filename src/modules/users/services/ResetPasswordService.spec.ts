@@ -1,10 +1,11 @@
 import { AppError } from '@shared/errors/AppError';
-import { MockUserRepository } from '../domain/repositories/mocks/MockUserRepository';
-import { MockUserTokenRepository } from '../domain/repositories/mocks/MockUserTokenRepository';
+
 import { CreateUserService } from './CreateUserService';
 import { ResetPasswordService } from './ResetPasswordService';
 import { SendForgotPasswordEmailService } from './SendForgotPasswordEmailService';
+import { MockUserRepository } from '../domain/repositories/mocks/MockUserRepository';
 import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
+import { MockUserTokenRepository } from '../domain/repositories/mocks/MockUserTokenRepository';
 
 let mockUserRepository: MockUserRepository;
 let mockHashProvider: MockHashProvider;

@@ -6,6 +6,7 @@ import { CreateUserService } from '@modules/users/services/CreateUserService';
 import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvatarService';
 import { ShowUserService } from '@modules/users/services/showUserService';
 import { UpdateProfileService } from '@modules/users/services/updateProfileService';
+
 import { container } from 'tsyringe';
 
 export class UserController {

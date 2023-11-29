@@ -5,8 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class MockUserTokenRepository implements IUserTokenRepository {
   private userTokens: UserToken[] = [];
-  public async findByToken(token: string): Promise<IUserToken | undefined> {
+  public async findByToken(token: string): Promise<IUserToken | null> {
     const userToken = this.userTokens.find(item => item.token === token);
+    if (!userToken) {
+      return null;
+    }
     return userToken;
   }
   public async generateToken(user_id: string): Promise<IUserToken> {

@@ -2,10 +2,10 @@ import { DataSource } from 'typeorm';
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5431,
+  host: 'db',
+  port: 5432,
   username: 'postgres',
-  password: 'postgres',
+  password: 'docker',
   database: 'dbvendas',
   entities: [`./src/modules/**/infra/typeorm/entities/*.ts`],
   migrations: [`./src/shared/infra/typeorm/migrations/*.ts`],

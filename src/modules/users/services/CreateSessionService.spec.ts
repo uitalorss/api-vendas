@@ -1,8 +1,8 @@
 import { AppError } from '@shared/errors/AppError';
 import { MockUserRepository } from '../domain/repositories/mocks/MockUserRepository';
 import { MockHashProvider } from '../providers/HashProvider/mocks/MockHashProvider';
-import { CreateSessionService } from './CreateSessionService';
 import { CreateUserService } from './CreateUserService';
+import { CreateSessionService } from './CreateSessionService';
 
 let mockUserRepository: MockUserRepository;
 let mockHashProvider: MockHashProvider;

@@ -10,16 +10,25 @@ export class MockUserRepository implements IUserRepository {
   public async find(): Promise<IUser[]> {
     return this.users;
   }
-  public async findByName(name: string): Promise<IUser | undefined> {
+  public async findByName(name: string): Promise<IUser | null> {
     const user = this.users.find(item => item.name === name);
+    if (!user) {
+      return null;
+    }
     return user;
   }
-  public async findById(id: string): Promise<IUser | undefined> {
+  public async findById(id: string): Promise<IUser | null> {
     const user = this.users.find(item => item.id === id);
+    if (!user) {
+      return null;
+    }
     return user;
   }
-  public async findByEmail(email: string): Promise<IUser | undefined> {
+  public async findByEmail(email: string): Promise<IUser | null> {
     const user = this.users.find(item => item.email === email);
+    if (!user) {
+      return null;
+    }
     return user;
   }
   public async create({ name, email, password }: ICreateUser): Promise<IUser> {

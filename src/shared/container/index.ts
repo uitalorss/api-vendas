@@ -1,3 +1,5 @@
+import { container } from 'tsyringe';
+
 import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
 import { CustomerRepository } from '@modules/customers/infra/typeorm/repositories/CustomerRepository';
 import { IOrderRepository } from '@modules/orders/domain/repositories/IOrderRepository';
@@ -8,9 +10,7 @@ import { IUserRepository } from '@modules/users/domain/repositories/IUserReposit
 import { IUserTokenRepository } from '@modules/users/domain/repositories/IUserTokenRepository';
 import { UserRepository } from '@modules/users/infra/typeorm/repositories/UserRepository';
 import { UserTokenRepository } from '@modules/users/infra/typeorm/repositories/UserTokenRepository';
-import { container } from 'tsyringe';
-import { IHashProvider } from '@modules/users/providers/HashProvider/models/IHashProvider';
-import { HashProvider } from '@modules/users/providers/HashProvider/implementations/HashProvider';
+import '@modules/users/providers';
 
 container.registerSingleton<ICustomerRepository>(
   'CustomerRepository',
@@ -32,5 +32,3 @@ container.registerSingleton<IOrderRepository>(
   'OrderRepository',
   OrderRepository,
 );
-
-container.registerSingleton<IHashProvider>('HashProvider', HashProvider);
